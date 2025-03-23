@@ -248,6 +248,20 @@ def highest_score(df:pd.DataFrame) -> str:
     max_score_index = scores_df.idxmax()
     return scores_df.loc[max_score_index]
 
+#--------
+# Average Coral Scored
+#--------
+def average_coral(df:pd.DataFrame) -> str:
+    amount_games = len(df)
+
+    if amount_games == 0:
+        return "No matches recorded."
+
+    total_coral = df["Coral Scored"].sum()
+    avg_coral = total_coral / amount_games
+
+    return f"Average Corals per Match: {avg_coral:.2f}"
+
 # --------
 # Highest number of wins with allaince
 # --------

@@ -48,7 +48,8 @@ def main():
                 st.metric("Coral Success %", round(get_coral_success(team_data), 2))
                 st.metric("End Game Priority", endgame_priority(team_data))
                 st.metric("Win %", round(win_percentage(team_data), 2))
-                st.metric("Highest Score", highest_score(team_data))
+                st.metric("Highest Score(points)", highest_score(team_data))
+                st.metric("Average amount of coral scored",average_coral(team_data))
                 st.metric("Highest Score Alliance", highest_score_alliance(team_data))
                 st.write("Highest wins based on alliance")
                 st.table(best_alliance(team_data))
@@ -75,7 +76,7 @@ def main():
 
 
     st.divider()
-    st.subheader("CanPac Ranking Data")
+    st.subheader("Hawaii Regional Ranking Data")
     st.write("Note: These stats are based on the FRC API for the regional")
 
     col1, col2 = st.columns(2)

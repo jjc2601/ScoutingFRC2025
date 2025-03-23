@@ -21,37 +21,10 @@ if "elapsed_time" not in st.session_state:
 if "record_time" not in st.session_state:
     st.session_state.record_time = None
 
-def start_stopwatch():
-    if not st.session_state.running:
-        st.session_state.running = True
-        st.session_state.start_time = time.time() - st.session_state.elapsed_time
-
-def stop_stopwatch():
-    if st.session_state.running:
-        st.session_state.running = False
-        st.session_state.elapsed_time = time.time() - st.session_state.start_time
-        st.session_state.record_time = st.session_state.elapsed_time
-
 def main():
     st.title("Hawaii Regional Scouting [Input]")
     st.write("Please be sure all fields are filled in in order to submit data")
     st.divider()
-    #stopwatch 
-    with st.container():
-        col1, col2 = st.columns(2)
-        with col1:
-            if st.button("Start"):
-                start_stopwatch()
-        with col2:
-            if st.button("Stop"):
-                stop_stopwatch()
-        if st.session_state.running:
-            st.session_state.elapsed_time = time.time() - st.session_state.start_time
-        st.metric("Elapsed Time", f"{st.session_state.elapsed_time:.2f} sec")
-
-        if st.session_state.record_time is not None:
-            st.success(f"Recorded Time: {st.session_state.record_time:.2f} sec")
-        st.divider()
     # Create a form with input fields
     with st.form("match data"):
 
@@ -88,10 +61,11 @@ def main():
         coral_miss = st.number_input("Missed Coral", value=0)
         teleop_Proc = st.number_input("Teleop Processor", value=0)
         teleop_Net = st.number_input("Teleop Net", value=0)
-        tele_cycle_time_coral = st.number_input("Teleop Cycle Time Coral (sec)", value=0)
-        tele_cycle_time_Proc = st.number_input("Teleop Cycle Time Processor (sec)", value=0)
-        tele_Cycle_time_Net = st.number_input("Teleop Cycle Time Net (sec)", value=0)
-        tele_priority = st.selectbox("Priority Cycles", ("Coral", "Algae", "None"))
+        #new
+        tele_cycle_time_coral = st.selectbox("How fast was the cycle time for scoring coral?", ("fast", "normal pace", "slow", "none"))
+        tele_cycle_time_Proc = st.selectbox("How fast was the cycle time for scoring in the processor?", ("fast", "normal pace", "slow","none"))
+        tele_Cycle_time_Net = st.number_inputselectbox("How fast was the cycle time for scoring in the net?", ("fast", "normal pace", "slow","none"))
+        tele_priority = st.selectbox("Priority Cycles", ("Coral", "Algae", "Defense"))
         tele_cycle_option = st.toggle("Cycled in match?", value=False)
         st.divider()
 
@@ -101,6 +75,7 @@ def main():
         end_SC = st.toggle("Shallow Carriage Hang", value=False)
         end_DC = st.toggle("Deep Carriage Hang", value=False)
         driver_perf = st.text_input("Driver Performance", value="N/A")
+        extra_comments = st.text_input("Any other comments ex. Strengths, weakness, robot breakdown", value="N/A")
         st.divider()
 
         # end of match data
@@ -121,7 +96,7 @@ def main():
                 auto_leave, auto_CL1, auto_CL2, auto_CL3, auto_CL4, auto_Proc, auto_Net, auto_desc, auto_rp,
                 teleop_CL1, teleop_CL2, teleop_CL3, teleop_CL4, teleop_Proc, teleop_Net, tele_cycle_time_coral,
                 tele_cycle_time_Proc, tele_Cycle_time_Net, tele_priority, end_zone, end_SC, end_DC, coral_rp, hang_rp, 
-                win, loss,coop_bonus, match_type, driver_perf, tied, coral_miss, tele_cycle_option
+                win, loss,coop_bonus, match_type, driver_perf,extra_comments, tied, coral_miss, tele_cycle_option
             ])
 
             team = [team_number, alliance1_number, alliance2_number]
